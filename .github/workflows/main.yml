@@ -37,3 +37,19 @@ jobs:
           PENDING=${{ steps.check-ci-1.outputs.status == 'queued' || steps.check-ci-1.outputs.status == 'pending'  || steps.check-ci-1.outputs.status == 'in_progress' }}
           echo "$PENDING"
           echo "PENDING=$PENDING" >> $GITHUB_ENV
+
+      - name: Check CI main.yml 2
+        id: check-ci-2
+        uses: LASER-Yi/workflow-status@v0.0.2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          workflow: main.yml
+          branch: master
+
+      - name: Print workflow status 2
+        shell: bash
+        run: |
+          echo "Workflow status of main.yml is ${{ steps.check-ci-1.outputs.status }}"
+          PENDING=${{ steps.check-ci-2.outputs.status == 'queued' || steps.check-ci-2.outputs.status == 'pending'  || steps.check-ci-2.outputs.status == 'in_progress' }}
+          echo "$PENDING"
+          echo "PENDING=$PENDING" >> $GITHUB_ENV
