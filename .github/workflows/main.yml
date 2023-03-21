@@ -24,7 +24,7 @@ jobs:
     steps:
       - name: Check CI main.yml
         id: check-ci-1
-        uses: ronymeyer/workflow-status@v0.3.4
+        uses: ronymeyer/workflow-status@v0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           workflow: main.yml
