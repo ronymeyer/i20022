@@ -49,7 +49,7 @@ jobs:
       - name: Print workflow status 2
         shell: bash
         run: |
-          echo "Workflow status of main.yml is ${{ steps.check-ci-1.outputs.status }}"
+          echo "Workflow status of main.yml is ${{ steps.check-ci-2.outputs.status }}"
           PENDING=${{ steps.check-ci-2.outputs.status == 'queued' || steps.check-ci-2.outputs.status == 'pending'  || steps.check-ci-2.outputs.status == 'in_progress' }}
           echo "$PENDING"
           echo "PENDING=$PENDING" >> $GITHUB_ENV
