@@ -16,8 +16,7 @@ on:
 permissions: read-all
 
 jobs:
-  # Stops the GitHub runner vm if there are no more pending jobs to run
-  stop-vm:
+  Check-Status:
     permissions: read-all
     runs-on: ubuntu-latest
     # we always runs this step, even when the previous ones failed, that way the vm doesn't stay running
