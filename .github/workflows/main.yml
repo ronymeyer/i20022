@@ -1,0 +1,40 @@
+# This workflow will build and push a .NET Core app to an Azure Web App when a commit is pushed to your default branch.
+#
+
+name: Test
+
+env:
+  DOTNET_VERSION: '7.0.x'                 # set this to the .NET Core version to use
+
+# Documentation: https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#concurrency
+concurrency: 
+  group: ${{ github.workflow }}
+  
+on:
+  workflow_dispatch:
+
+permissions: read-all
+
+jobs:
+  # Stops the GitHub runner vm if there are no more pending jobs to run
+  stop-vm:
+    permissions: read-all
+    runs-on: ubuntu-latest
+    # we always runs this step, even when the previous ones failed, that way the vm doesn't stay running
+    if: ${{ always() }}
+    steps:
+      - name: Check CI main.yml
+        id: check-ci-1
+        uses: ronymeyer/workflow-status@v0.3.1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          workflow: main.yml
+          branch: master
+
+      - name: Print workflow status
+        shell: bash
+        run: |
+          echo "Workflow status of main.yml is ${{ steps.check-ci-1.outputs.status }}"
+          PENDING=${{ steps.check-ci-1.outputs.status == 'queued' || steps.check-ci-1.outputs.status == 'pending'  || steps.check-ci-1.outputs.status == 'in_progress' }}
+          echo "$PENDING"
+          echo "PENDING=$PENDING" >> $GITHUB_ENV
